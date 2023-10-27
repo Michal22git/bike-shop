@@ -1,7 +1,20 @@
 {% extends "base.html" %}
-{% load static %}
 {% block content %}
-{% for product in products %}
-    <p>{{ product.title }} - {{ product.price }}</p>
-{% endfor %}
+<div class="category-content">
+    <div class="category-header">
+        <h1>{{ products.0.category.name }}</h1>
+        <p>{{ products.0.category.description }}</p>
+    </div>
+    <div class="category-elements">
+        {% for product in products %}
+            <div class="category-element">
+                <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                <p class="product-title">{{ product.title }}</p>
+                <p class="product-price">{{ product.price }} PLN</p>
+                <button class="add-button">Add</button>
+                <a class="info-btn" href="{% url 'shop:item' product.id %}">Info</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}

@@ -15,9 +15,17 @@
             </a>
             <ul class="navigation-list">
                 {% if user.is_authenticated %}
-                    <li class="navigation-list-element"><a href="#">Bikes</a></li>
-                    <li class="navigation-list-element"><a href="#">Parts</a></li>
-                    <li class="navigation-list-element header-btn"><a href="#">Logout</a></li>
+                    <li class="navigation-list-element"><a href="{{ bikes_category.get_absolute_url }}">Bikes</a></li>
+                    <li class="navigation-list-element dropdown">Parts⬇
+                        <ul class="dropdown-list">
+                            {% for category in categories %}
+                                {% if category.name != "Bikes" %}
+                                    <li><a href="{% url 'shop:product-list' category_name=category.name %}">{{ category.name|title }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="navigation-list-element header-btn"><a href="{% url 'users:logout' %}">Logout</a></li>
                 {% else %}
                     <li class="navigation-list-element"><a href="{{ bikes_category.get_absolute_url }}">Bikes</a></li>
                     <li class="navigation-list-element dropdown">Parts⬇
@@ -29,8 +37,8 @@
                             {% endfor %}
                         </ul>
                     </li>
-                    <li class="navigation-list-element header-btn"><a href="#">Login</a></li>
-                    <li class="navigation-list-element header-btn"><a href="#">Register</a></li>
+                    <li class="navigation-list-element header-btn"><a href="{% url 'users:login' %}">Login</a></li>
+                    <li class="navigation-list-element header-btn"><a href="{% url 'users:register' %}">Register</a></li>
                 {% endif %}
             </ul>
         </nav>

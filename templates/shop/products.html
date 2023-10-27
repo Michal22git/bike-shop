@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% for product in products %}
+    <p>{{ product.title }} - {{ product.price }}</p>
+{% endfor %}
+{% endblock content %}

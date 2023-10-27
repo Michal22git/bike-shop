@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bike Shop</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navigation">
+            <a href="{% url 'shop:home' %}">
+                <img src="{% static 'images/header-logo.png' %}">
+            </a>
+            <ul class="navigation-list">
+                {% if user.is_authenticated %}
+                    <li class="navigation-list-element"><a href="#">Bikes</a></li>
+                    <li class="navigation-list-element"><a href="#">Parts</a></li>
+                    <li class="navigation-list-element header-btn"><a href="#">Logout</a></li>
+                {% else %}
+                    <li class="navigation-list-element"><a href="{{ bikes_category.get_absolute_url }}">Bikes</a></li>
+                    <li class="navigation-list-element dropdown">Parts⬇
+                        <ul class="dropdown-list">
+                            {% for category in categories %}
+                                {% if category.name != "Bikes" %}
+                                    <li><a href="{% url 'shop:product-list' category_name=category.name %}">{{ category.name|title }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="navigation-list-element header-btn"><a href="#">Login</a></li>
+                    <li class="navigation-list-element header-btn"><a href="#">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% if messages %}
+        <div class="message-display">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

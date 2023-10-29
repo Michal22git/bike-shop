@@ -1,0 +1,11 @@
+{% extends "base_profile.html" %}
+{% load crispy_forms_tags %}
+{% block profile_content %}
+<h1>Edit Address</h1>
+<form class="custom-form" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Save">
+</form>
+
+{% endblock profile_content %}

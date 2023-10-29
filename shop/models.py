@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.contrib.auth.models import User
+from django.db.models import Sum
 
 
 def upload_to_path(instance, filename):
@@ -34,3 +36,27 @@ class Product(models.Model):
 
     class Meta:
         verbose_name_plural = 'Product'
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_items = models.PositiveIntegerField(default=0)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def __str__(self):
+        return self.user.username
+
+    def calculate_total(self):
+        carted_items = CartedItem.objects.filter(cart=self)
+        self.total_items = carted_items.aggregate(Sum('quantity'))['quantity__sum']
+        self.total_price = sum(item.product.price * item.quantity for item in carted_items)
+        self.save()
+
+
+class CartedItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.cart.user.username} | {self.quantity} - {self.product.title}"

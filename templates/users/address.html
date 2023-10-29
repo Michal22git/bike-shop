@@ -1,0 +1,21 @@
+{% extends "base_profile.html" %}
+{% block profile_content %}
+<h1>Your Addresses</h1>
+<a class="add-button" href="{% url 'users:addresses-add' %}" style="background-color: green; color: white;">Add</a>
+{% for address in addresses %}
+    <div class="address-container">
+        <div class="address-element">
+            <h3>{{ address.name }}</h3>
+            <p>{{ address.first_name }} {{ address.last_name }}</p>
+            <p>{{ address.street }} {{ address.house }} {% if address.apartment%}/ {{ address.apartment }} {% endif %}</p>
+            <p>{{ address.city }}, {{ address.postal_code }}</p>
+            <p>{{ address.country }}, {{ address.phone }}</p>
+        </div>
+
+        <a class="add-button" href="{% url 'users:addresses-update' address.id %}" style="background-color: orange; color: white;">Edit</a>
+        <form method="POST" action="{% url 'users:addresses-delete' address.id %}">
+           {% csrf_token %}<input type="submit" value="Delete">
+        </form>
+    </div>
+{% endfor %}
+{% endblock profile_content %}

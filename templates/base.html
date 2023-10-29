@@ -6,6 +6,7 @@
     <title>Bike Shop</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fontello.css' %}">
 </head>
 <body>
     <header>
@@ -19,21 +20,19 @@
                     <li class="navigation-list-element dropdown">Parts⬇
                         <ul class="dropdown-list">
                             {% for category in categories %}
-                                {% if category.name != "Bikes" %}
-                                    <li><a href="{% url 'shop:product-list' category_name=category.name %}">{{ category.name|title }}</a></li>
-                                {% endif %}
+                                <li><a href="{% url 'shop:product-list' category_name=category.name %}">{{ category.name|title }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>
+                    <li class="navigation-list-element header-btn"><a href="{% url 'users:profile' %}">Profile</a></li>
                     <li class="navigation-list-element header-btn"><a href="{% url 'users:logout' %}">Logout</a></li>
+                    <i class="icon-basket"></i>
                 {% else %}
                     <li class="navigation-list-element"><a href="{{ bikes_category.get_absolute_url }}">Bikes</a></li>
                     <li class="navigation-list-element dropdown">Parts⬇
                         <ul class="dropdown-list">
                             {% for category in categories %}
-                                {% if category.name != "Bikes" %}
-                                    <li><a href="{% url 'shop:product-list' category_name=category.name %}">{{ category.name|title }}</a></li>
-                                {% endif %}
+                                <li><a href="{% url 'shop:product-list' category_name=category.name %}">{{ category.name|title }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>

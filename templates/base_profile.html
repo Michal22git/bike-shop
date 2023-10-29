@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="product-container">
+    <div class="profile-info">
+        <div class="profile-info-border">
+            <h1>Actions</h1>
+            <a href="{% url 'users:profile' %}"><button>Profile panel</button></a>
+            <a href="{% url 'users:addresses' %}"><button>My addresses</button></a>
+            <a href="#"><button>My orders</button></a>
+        </div>
+    </div>
+    <div class="profile-content">
+        {% block profile_content %}{% endblock profile_content %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,5 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<h1>main page -ddoac slider i jakies peirdoly</h1>
+<div class="home-container">
+    <div class="switcher">
+        <h1>Recommendation</h1>
+        {% for element in object_list %}
+            <a href="{% url 'shop:item' element.id %}" class="product-link">
+                <div class="product-info" style="display: none;">
+                    <img src="{{ element.image.url }}" alt="{{ element.title }}"/>
+                    <p><span class="product-title">{{ element.title }}</span> - <span class="product-price">{{ element.price }}</span></p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <div class="home-info">
+        <h1>Bike shop</h1>
+        <p>Our store offers a wide range of bicycles and bicycle parts to meet your cycling needs. We take pride in providing high-quality bicycles for riders of all levels. Whether you're an experienced cyclist or just starting your biking journey, we have something for you.
+            Our selection includes various types of bicycles, such as mountain bikes, road bikes, touring bikes, and city bikes. We also offer a wide variety of bicycle parts and accessories, allowing you to customize your bike to suit your preferences. Our team is always ready to assist and offer guidance to help you find the right products and accessories.</p>
+    </div>
+</div>
+
+<script src="{% static 'js/switcher.js' %}"></script>
 {% endblock content %}

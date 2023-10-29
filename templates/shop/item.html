@@ -7,7 +7,8 @@
         <i>{{ item.description }}</i>
         <p>Price: {{ item.price }}PLN</p>
         <h2>Product category: <i>{{ item.category.name }}</i></h2>
-        <button class="add-button">Add</button>
+
+        <a href="{% url 'shop:add-item' item.id %}">ADD</a>
     </div>
     <div class="product-image">
         <img src="{{ item.image.url }}" alt="{{ item.title }}">

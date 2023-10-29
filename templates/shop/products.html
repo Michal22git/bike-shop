@@ -11,7 +11,7 @@
                 <img src="{{ product.image.url }}" alt="{{ product.title }}">
                 <p class="product-title">{{ product.title }}</p>
                 <p class="product-price">{{ product.price }} PLN</p>
-                <button class="add-button">Add</button>
+                <a href="{% url 'shop:add-item' product.id %}" class="add-button">Add</a>
                 <a class="info-btn" href="{% url 'shop:item' product.id %}">Info</a>
             </div>
         {% endfor %}

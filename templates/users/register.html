@@ -4,13 +4,11 @@
 <div class="content-section">
     <form method="POST" class="authentication-form">
         {% csrf_token %}
-        <legend>Login to your account</legend>
+        <legend>Register account!</legend>
         {{ form|crispy }}
         <div>
-            <button type="submit" class="submit-button">Login</button>
+            <button type="submit" class="submit-button">Register</button>
         </div>
-        <a href="{% url 'users:register' %}"><p>Register</p></a>
     </form>
 </div>
-
 {% endblock content %}

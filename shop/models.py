@@ -2,7 +2,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-from django.db.models import Sum
+from users.models import Address
+
+
 
 
 def upload_to_path(instance, filename):
@@ -46,12 +48,6 @@ class Cart(models.Model):
     def __str__(self):
         return self.user.username
 
-    def calculate_total(self):
-        carted_items = CartedItem.objects.filter(cart=self)
-        self.total_items = carted_items.aggregate(Sum('quantity'))['quantity__sum']
-        self.total_price = sum(item.product.price * item.quantity for item in carted_items)
-        self.save()
-
 
 class CartedItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -60,3 +56,21 @@ class CartedItem(models.Model):
 
     def __str__(self):
         return f"{self.cart.user.username} | {self.quantity} - {self.product.title}"
+
+
+class Order(models.Model):
+    STATUS_CHOICES = (
+        ('accepted', 'Accepted for Processing'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+    )
+
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    items = models.ManyToManyField(CartedItem)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='accepted')
+    total_items = models.PositiveIntegerField(default=0)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def __str__(self):
+        return f"{self.user.username} | {self.pk} - {self.status}"

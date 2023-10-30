@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="cart">
+    <div class="cart">
+        {% if carted_items %}
+            <h1 style="margin-bottom: 15px;">Final summary</h1>
+            <h3>{{ address.name }}</h3>
+            <p>{{ address.first_name }} {{ address.last_name }}</p>
+            <p>{{ address.street }} {{ address.house }} {% if address.apartment%}/ {{ address.apartment }} {% endif %}</p>
+            <p>{{ address.city }}, {{ address.postal_code }}</p>
+            <p>{{ address.country }}, {{ address.phone }}</p>
+            <div class="cart-summary">
+                <p>Items: {{ total_items }}</p>
+                <p>Price: {{ total_price }} PLN</p>
+            </div>
+            <ul>
+                {% for item in carted_items %}
+                    <li>
+                        <div class="cart-element">
+                            <img src="{{ item.product.image.url }}" alt="">
+                            <p>{{ item.product.title }}</p>
+                            <p>{{ item.quantity }}</p>
+                            <p>{{item.product.price}} PLN</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a class="info-btn" href="{% url 'shop:order' pk=address.id %}" style="background-color: green; width: 40%; margin: auto;">Place order</a>
+        {% else %}
+            <p>you cart is empty...</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

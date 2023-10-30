@@ -26,8 +26,8 @@ class UserAddressesView(LoginRequiredMixin, ListView):
     template_name = 'users/address.html'
     context_object_name = 'addresses'
 
-    def get_object(self):
-        Address.objects.filter(user=self.request.user)
+    def get_queryset(self):
+        return Address.objects.filter(user=self.request.user)
 
 
 class AddAddressView(LoginRequiredMixin, CreateView):
@@ -40,7 +40,7 @@ class AddAddressView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class UpdateAddressView(LoginRequiredMixin, UpdateView):
+class UpdateAddressView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Address
     form_class = AddressForm
     template_name = 'users/address_form.html'
@@ -48,9 +48,7 @@ class UpdateAddressView(LoginRequiredMixin, UpdateView):
 
     def test_func(self):
         address = self.get_object()
-        if self.request.user == address.user:
-            return True
-        return False
+        return self.request.user == address.user
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -63,6 +61,4 @@ class DeleteAddressView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         address = self.get_object()
-        if self.request.user == address.user:
-            return True
-        return False
+        return self.request.user == address.user

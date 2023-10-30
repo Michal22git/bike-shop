@@ -405,3 +405,53 @@ form.custom-form input[type="submit"] {
     cursor: pointer;
     margin-top: 10px;
 }
+
+.cart-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cart {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 5% auto;
+    width: 80%;
+}
+
+.cart-summary {
+    display: flex;
+    margin: auto;
+}
+
+.cart-summary p {
+    margin: 25px;
+    font-size: 18px;
+}
+
+.cart-element {
+    width: 90%;
+    margin: 10px auto;
+    border: 3px solid #394E76;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.cart-element img {
+    width: 10%;
+    height: 10%;
+    justify-content: left;
+}

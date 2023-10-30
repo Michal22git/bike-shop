@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="cart">
+        {% if carted_items %}
+            <h1>Cart Summary</h1>
+            <div class="cart-summary">
+                <p>Items: {{ total_items }}</p>
+                <p>Price: {{ total_price }} PLN</p>
+            </div>
+            <ul>
+                {% for item in carted_items %}
+                    <li>
+                        <div class="cart-element">
+                            <img src="{{ item.product.image.url }}" alt="">
+                            <p>{{ item.product.title }}</p>
+                            <p>{{ item.quantity }}</p>
+                            <p>{{item.product.price}} PLN</p>
+                            <form method="POST" action="{% url 'shop:remove-item' item.id %}">
+                               {% csrf_token %}<input type="submit" value="Delete">
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a class="info-btn" href="{% url 'shop:cart-address' %}" style="background-color: green; width: 40%; margin: auto;">Select delivery address</a>
+        {% else %}
+            <p>you cart is empty...</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}

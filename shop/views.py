@@ -62,9 +62,11 @@ class CartView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        cart = Cart.objects.filter(user=user).first()
+        cart, created = Cart.objects.get_or_create(user=user)
+
         context['total_items'] = cart.total_items
         context['total_price'] = cart.total_price
+
         return context
 
 
@@ -131,7 +133,16 @@ class SummaryView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
 
-class PlaceOrderView(LoginRequiredMixin, View):
+class PlaceOrderView(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        address_id = self.kwargs.get('pk')
+        try:
+            address = Address.objects.get(id=address_id, user=self.request.user)
+        except Address.DoesNotExist:
+            return False
+        return True
+
     def get(self, request, *args, **kwargs):
         address_id = kwargs.get('pk')
 
@@ -142,17 +153,12 @@ class PlaceOrderView(LoginRequiredMixin, View):
         cart = Cart.objects.filter(user=user).first()
 
         if cart is None:
-            return redirect('shop:home')
+            return redirect('shop:cart')
 
         address = get_object_or_404(Address, id=address_id)
         carted_items = CartedItem.objects.filter(cart=cart)
-
-        if not carted_items:
-            return redirect('shop:cart')
-
         total_items = cart.total_items
         total_price = cart.total_price
-
 
         order = Order(
             user=user,
@@ -161,11 +167,12 @@ class PlaceOrderView(LoginRequiredMixin, View):
             total_items=total_items,
             total_price=total_price
         )
+
         order.save()
 
-
-        order.items.set(carted_items)
-
+        for carted_item in carted_items:
+            for _ in range(carted_item.quantity):
+                order.items.add(carted_item.product)
 
         carted_items.delete()
 

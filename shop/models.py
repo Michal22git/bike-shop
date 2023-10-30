@@ -66,7 +66,7 @@ class Order(models.Model):
     )
 
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    items = models.ManyToManyField(CartedItem)
+    items = models.ManyToManyField(Product)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='accepted')
     total_items = models.PositiveIntegerField(default=0)

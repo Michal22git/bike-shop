@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h1>Order Confirmation</h1>
+    <p>Thank you for your order. Below are the details:</p>
+
+    <div>
+        <h3>Order Summary</h3>
+        <p>Items: {{ order.total_items }}</p>
+        <p>Total Price: {{ order.total_price }} PLN</p>
+    </div>
+
+    <div>
+        <h3>Delivery Address</h3>
+        <p>{{ order.address.name }}</p>
+        <p>{{ order.address.first_name }} {{ order.address.last_name }}, {{ order.user.email }}</p>
+        <p>{{ order.address.street }} {{ order.address.house }}{% if order.address.apartment %}/ {{ order.address.apartment }}{% endif %}</p>
+        <p>{{ order.address.city }}, {{ order.address.postal_code }}</p>
+        <p>{{ order.address.country }}, {{ order.address.phone }}</p>
+    </div>
+
+    <p>You can find your order details in the orders tab of your account</p>
+
+    <p>Thank you for shopping with us!</p>
+</body>
+</html>

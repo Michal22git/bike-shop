@@ -180,4 +180,4 @@ class PlaceOrderView(LoginRequiredMixin, UserPassesTestMixin, View):
         cart.total_price = 0
         cart.save()
 
-        return redirect('users:profile')
+        return redirect('users:orders')

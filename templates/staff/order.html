@@ -1,0 +1,34 @@
+{% extends "base_staff.html" %}
+{% block content %}
+<div class="cart">
+    <h1 style="margin-bottom: 25px;">Order number: {{ order.id }}</h1>
+    <form method="post">Status:
+        {% csrf_token %}
+        {{ form.status }}
+        <button type="submit">Update</button>
+    </form>
+    <div class="order-base-info">
+        <p>Items: {{ order.total_items }}</p>
+        <p>Total price: {{ order.total_price }} PLN</p>
+    </div>
+    <div class="order-order-address">
+        <h3>{{ order.address.name }}</h3>
+        <p>{{ order.address.first_name }} {{ order.address.last_name }}, {{ order.user.email}}</p>
+        <p>{{ order.address.street }} {{ order.address.house }} {% if order.address.apartment%}/ {{ order.address.apartment }} {% endif %}</p>
+        <p>{{ order.address.city }}, {{ order.address.postal_code }}</p>
+        <p>{{ order.address.country }}, {{ order.address.phone }}</p>
+    </div>
+    <ul>
+        {% for item in order.items.all %}
+            <li>
+                <div class="cart-element">
+                    <img src="{{ item.image.url }}" alt="">
+                    <p>{{ item.title }}</p>
+                    <p>{{ item.category }}</p>
+                    <p>{{ item.price }} PLN</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

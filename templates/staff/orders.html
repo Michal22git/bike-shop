@@ -1,0 +1,41 @@
+{% extends "base_staff.html" %}
+{% block content %}
+<div class="cart">
+    {% if orders %}
+        <h1>Active orders</h1>
+        {% for order in orders %}
+            <div class="one-order">
+                <a class="info-btn" href="{% url 'staff:order' order.id %}">Edit</a>
+                <div class="order-summary">
+                    <p>Status: <span style="font-size: 18px; color:
+                        {% if order.status == 'accepted' %} green;
+                        {% elif order.status == 'shipped' %} blue;
+                        {% elif order.status == 'delivered' %} purple;
+                        {% endif %}">
+                        {{ order.get_status_display }}
+                    </span></p>
+                    <p>Items: {{ order.total_items }}</p>
+                    <p>Total price: {{ order.total_price }} PLN</p>
+                    <p>Address: {{ order.address }}</p>
+                    <p>{{ order.user.email }}</p>
+                </div>
+                <ul>
+                    {% for product in order.items.all %}
+                        <a href="{% url 'shop:item' product.id %}">
+                            <li>
+                                <div class="cart-element">
+                                    <img src="{{ product.image.url }}" alt="">
+                                    <p>{{ product.title }}</p>
+                                    <p>{{ product.price }} PLN</p>
+                                </div>
+                            </li>
+                        </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Theres no active orders</p>
+    {% endif %}
+</div>
+{% endblock content %}

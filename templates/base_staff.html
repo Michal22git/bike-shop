@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bike Shop</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navigation">
+            <h1>Staff dashboard</h1>
+            <a href="{% url 'staff:home' %}">
+                <img src="{% static 'images/header-logo.png' %}">
+            </a>
+            <ul class="navigation-list">
+                {% if user.is_authenticated %}
+                    <li class="navigation-list-element header-btn"><a href="{% url 'staff:orders' %}">Orders</a></li>
+                    <li class="navigation-list-element header-btn"><a href="{% url 'staff:logout' %}">Logout</a></li>
+                {% else %}
+                    <li class="navigation-list-element header-btn"><a href="{% url 'staff:login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% if messages %}
+        <div class="message-display">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

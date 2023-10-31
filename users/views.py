@@ -5,6 +5,7 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView, D
 
 from .forms import UserRegisterForm, AddressForm
 from .models import Address
+from shop.models import Order, Product
 
 
 class UserRegisterView(CreateView):
@@ -62,3 +63,18 @@ class DeleteAddressView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         address = self.get_object()
         return self.request.user == address.user
+
+
+class OrdersView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'users/orders.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for order in context['orders']:
+            order.product_details = order.items.all()
+        return context

@@ -426,7 +426,7 @@ form.custom-form input[type="submit"] {
     display: flex;
     flex-direction: column;
     margin: 5% auto;
-    width: 80%;
+    width: 90%;
 }
 
 .cart-summary {
@@ -442,7 +442,7 @@ form.custom-form input[type="submit"] {
 .cart-element {
     width: 90%;
     margin: 10px auto;
-    border: 3px solid #394E76;
+    border: 2px solid #394E76;
     padding: 15px;
     display: flex;
     justify-content: space-between;
@@ -454,4 +454,43 @@ form.custom-form input[type="submit"] {
     width: 10%;
     height: 10%;
     justify-content: left;
+}
+
+.one-order {
+    margin-top: 5%;
+    border: 3px solid #394E76;
+    border-radius: 3px;
+}
+
+.one-order a {
+    text-decoration: none;
+    color: black;
+}
+
+.order-summary {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px;
+}
+
+.order-base-info {
+    display:flex;
+    margin: auto;
+    padding: 20px;
+}
+
+.order-base-info p {
+    padding: 20px;
+}
+
+.order-order-address {
+    margin-bottom: 15px;
+}
+
+.order-order-address  h3 {
+    color: green;
+}
+
+.order-order-address  p {
+    padding: 5px;
 }

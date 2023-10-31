@@ -133,3 +133,4 @@ LOGIN_REDIRECT_URL = 'shop:home'
 LOGIN_URL = 'users:login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+

@@ -18,6 +18,11 @@
                     <p>Items: {{ order.total_items }}</p>
                     <p>Total price: {{ order.total_price }} PLN</p>
                     <p>Address: {{ order.address }}</p>
+                    {% if order.invoice_set.all %}
+                        <p>
+                            <a href="{{ order.invoice_set.first.pdf_file.url }}" target="_blank">Invoice</a>
+                        </p>
+                    {% endif %}
                 </div>
                 <ul>
                     {% for product in order.product_details.all %}
@@ -38,7 +43,4 @@
         <p>Your cart is empty...</p>
     {% endif %}
 </div>
-
-
-
 {% endblock profile_content %}

@@ -6,10 +6,9 @@ from users.models import Address
 
 
 
-
 def upload_to_path(instance, filename):
     category_slug = slugify(instance.category.name)
-    return f'static/images/{category_slug}/{filename}'
+    return f'images/{category_slug}/{filename}'
 
 
 class Category(models.Model):
@@ -74,3 +73,12 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.user.username} | {self.pk} - {self.status}"
+
+
+class Invoice(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pdf_file = models.FileField(upload_to='invoice/')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.order.id}"
